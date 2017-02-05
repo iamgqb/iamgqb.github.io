@@ -17,7 +17,7 @@
 但是在javascript中本身没有链表，只有数组，但是得益于javascript中数组的一些方法，比如 push pop unshift shift splice等，使得数组可以方便的模拟链表，并且可以用下标直接访问。
 但我们也可以通过一些方法来创建出更接近链表的结构。
 单向链表1">
-<meta property="og:updated_time" content="2016-12-07T16:29:55.000Z">
+<meta property="og:updated_time" content="2017-02-05T07:02:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javascript 中的链表">
 <meta name="twitter:description" content="链表作为一种基础的数据结构，相较于数组的优势是不需要预先知道存储数据的大小，但也就无法像数组那样通过下标方便读取。
@@ -63,7 +63,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://iamgqb.github.io"></form>
@@ -99,25 +99,40 @@
 <p>但我们也可以通过一些方法来创建出更接近链表的结构。</p>
 <h4 id="单向链表"><a href="#单向链表" class="headerlink" title="单向链表"></a>单向链表</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Chain</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.val = val;</div><div class="line">    <span class="keyword">this</span>.next = <span class="literal">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>以上的结构可以简单模拟单向链表。</p>
-<p>比如把数组 <code>[&#39;January&#39;, &#39;February&#39;, &#39;March&#39;, &#39;April&#39;]</code> 转换成单项链表。</p>
+<p>比如把数组 <code>[&#39;January&#39;, &#39;February&#39;, &#39;March&#39;, &#39;April&#39;]</code> 转换成单向链表。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> array = [<span class="string">'January'</span>, <span class="string">'February'</span>, <span class="string">'March'</span>, <span class="string">'April'</span>];</div><div class="line"><span class="keyword">let</span> head = <span class="keyword">new</span> Chain(array.shift());</div><div class="line"><span class="keyword">let</span> tail = head;</div><div class="line"><span class="keyword">while</span>(array.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">let</span> node = <span class="keyword">new</span> Chain(array.shift());</div><div class="line">    tail.next = node;</div><div class="line">    tail = node;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 现在其中的值只能通过头部逐一向后查找了</span></div><div class="line"><span class="built_in">console</span>.log(head);</div></pre></td></tr></table></figure>
 <h4 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h4><p>如果把尾部的next指向头部， 我们就得到了一个循环链表</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tail.next = head;</div></pre></td></tr></table></figure>
 <h4 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h4><p>如果我们修改下 <code>Chain</code> 的结构, 增加一个向前的“指针“</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Chain</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.val = val;</div><div class="line">    <span class="keyword">this</span>.prev = <span class="literal">null</span>;</div><div class="line">    <span class="keyword">this</span>.next = <span class="literal">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>并在创建链表的时候多做一点，于是就能得到一个双向链表。</p>
+<p>并在创建链表的时候多做一点，将当前节点的“前指针”指向前一个节点，于是就能得到一个双向链表。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> array = [<span class="string">'January'</span>, <span class="string">'February'</span>, <span class="string">'March'</span>, <span class="string">'April'</span>];</div><div class="line"><span class="keyword">let</span> head = <span class="keyword">new</span> Chain(array.shift());</div><div class="line"><span class="keyword">let</span> tail = head;</div><div class="line"><span class="keyword">while</span>(array.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">let</span> node = <span class="keyword">new</span> Chain(array.shift());</div><div class="line">    tail.next = node;</div><div class="line">    node.prev = tail;</div><div class="line">    tail = node;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(head);</div></pre></td></tr></table></figure>
-<h4 id="双向循环链表"><a href="#双向循环链表" class="headerlink" title="双向循环链表"></a>双向循环链表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tail.next = head;</div><div class="line">head.prev = tail;</div></pre></td></tr></table></figure>
+<h4 id="双向循环链表"><a href="#双向循环链表" class="headerlink" title="双向循环链表"></a>双向循环链表</h4><p>将双向链表的最后一个节点与第一个节点相连<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tail.next = head;</div><div class="line">head.prev = tail;</div></pre></td></tr></table></figure></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://iamgqb.github.io/2016/chain-in-javascript/" data-id="ciwf67amx0000t17au78sq9nn" class="article-share-link">Share</a>
+      <a data-url="https://iamgqb.github.io/2016/chain-in-javascript/" data-id="ciysptha50001f97a9egi8snm" class="article-share-link">Share</a>
       
       
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2017/simple-particle-animate/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          简单的粒子动画
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
   
 </article>
 
@@ -135,9 +150,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Arkiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -145,9 +160,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Siste innlegg</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/simple-particle-animate/">简单的粒子动画</a>
+          </li>
         
           <li>
             <a href="/2016/chain-in-javascript/">javascript 中的链表</a>
@@ -165,7 +184,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 gb_2312<br>
+      &copy; 2017 gb_2312<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
