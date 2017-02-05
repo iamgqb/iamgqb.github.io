@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://iamgqb.github.io"></form>
@@ -93,18 +93,22 @@
 <li>将元素imgObj画在画布上</li>
 <li>回到步骤1</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let loop = () =&gt; &#123;</div><div class="line">  clearCanvas();</div><div class="line">  calculation();</div><div class="line">  drawSomething();</div><div class="line">  window.requestAnimationFrame(loop);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> loop = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  clearCanvas();</div><div class="line">  calculation();</div><div class="line">  drawSomething();</div><div class="line">  <span class="built_in">window</span>.requestAnimationFrame(loop);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>使用 requestAnimationFrame 而非 setTimeout 以获得更好的性能。</p>
-<h4 id="创建粒子"><a href="#创建粒子" class="headerlink" title="创建粒子"></a>创建粒子</h4><p>我们需要一个坐标来表示粒子被画在画布的哪个位置，同时动态的粒子，还需要一个表示其运动的速度。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let particle = &#123;</div><div class="line">  centerX: 0,</div><div class="line">  centerY: 0,</div><div class="line">  speedX: 1,</div><div class="line">  speedY: 1</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="创建粒子"><a href="#创建粒子" class="headerlink" title="创建粒子"></a>创建粒子</h4><p>我们需要一个坐标来表示粒子被画在画布的哪个位置，同时动态的粒子，还需要一个表示其运动的速度。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> particle = &#123;</div><div class="line">  <span class="attr">centerX</span>: <span class="number">0</span>,</div><div class="line">  <span class="attr">centerY</span>: <span class="number">0</span>,</div><div class="line">  <span class="attr">speedX</span>: <span class="number">1</span>,</div><div class="line">  <span class="attr">speedY</span>: <span class="number">1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这样一个粒子的运动信息就可以被记录下来了。</p>
 <p>以上的单个粒子还可以加上例如颜色，半径大小等更多的信息。</p>
-<p>初始化一组粒子信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let particleArr = [];</div><div class="line">for (let i = 0; i &lt; PARTICLE_NUM; i++) &#123;</div><div class="line">  particleArr.push(&#123;</div><div class="line">    centerX: random(cWidth),</div><div class="line">    centerY: random(cHeight),</div><div class="line">    speedX: random(SPEED) * randomDir(), // randomDir用来随机一个方向</div><div class="line">    speedY: random(SPEED) * randomDir()</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>初始化一组粒子信息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> particleArr = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; PARTICLE_NUM; i++) &#123;</div><div class="line">  particleArr.push(&#123;</div><div class="line">    <span class="attr">centerX</span>: random(cWidth),</div><div class="line">    <span class="attr">centerY</span>: random(cHeight),</div><div class="line">    <span class="attr">speedX</span>: random(SPEED) * randomDir(), <span class="comment">// randomDir用来随机一个方向</span></div><div class="line">    speedY: random(SPEED) * randomDir()</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="绘制粒子"><a href="#绘制粒子" class="headerlink" title="绘制粒子"></a>绘制粒子</h4><p>循环调用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D" target="_blank" rel="external">canvas API</a> 即可。</p>
 <h4 id="粒子更新"><a href="#粒子更新" class="headerlink" title="粒子更新"></a>粒子更新</h4><p>如果在绘制粒子前不做更新，那我们每次看到的都是同一幅画面，那整个动画就是静止的。</p>
 <p>在这一步，之前创建粒子时保存下来的粒子位置以及速度就用上了。</p>
-<p>我们可以简单地通过记录的速度来确定当前粒子应该在的位置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let calcParticle = (particle) =&gt; &#123;</div><div class="line">  particle.centerX += particle.speedX;</div><div class="line">  particle.centerY += particle.speedY;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们可以简单地通过记录的速度来确定当前粒子应该在的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> calcParticle = <span class="function">(<span class="params">particle</span>) =&gt;</span> &#123;</div><div class="line">  particle.centerX += particle.speedX;</div><div class="line">  particle.centerY += particle.speedY;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这样就能使整个画面动起来。</p>
-<p>但是如果仅仅这样，在不一会儿之后，我们的画布上就不存在粒子了，因为所有粒子沿着初始化的方向不停运动而“逃”到了画布之外。因此，我们在计算的时候再简单地加上一个碰撞检测 <em>(当粒子半径足够小，运动速度不大的时候)</em> ，当判断粒子位置超出画布的时候将速度反向。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">let calcParticle = (particle) =&gt; &#123;</div><div class="line">  particle.centerX += particle.speedX;</div><div class="line">  particle.centerY += particle.speedY;</div><div class="line">  if (particle.centerX &lt; 0 || particle.centerX &gt; cWidth) &#123;</div><div class="line">    particle.speedX *= -1;</div><div class="line">  &#125;</div><div class="line">  if (particle.centerY &lt; 0 || particle.centerY &gt; cHeight) &#123;</div><div class="line">    particle.speedY *= -1;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是如果仅仅这样，在不一会儿之后，我们的画布上就不存在粒子了，因为所有粒子沿着初始化的方向不停运动而“逃”到了画布之外。因此，我们在计算的时候再简单地加上一个碰撞检测 <em>(当粒子半径足够小，运动速度不大的时候)</em> ，当判断粒子位置超出画布的时候将速度反向。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> calcParticle = <span class="function">(<span class="params">particle</span>) =&gt;</span> &#123;</div><div class="line">  particle.centerX += particle.speedX;</div><div class="line">  particle.centerY += particle.speedY;</div><div class="line">  <span class="keyword">if</span> (particle.centerX &lt; <span class="number">0</span> || particle.centerX &gt; cWidth) &#123;</div><div class="line">    particle.speedX *= <span class="number">-1</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (particle.centerY &lt; <span class="number">0</span> || particle.centerY &gt; cHeight) &#123;</div><div class="line">    particle.speedY *= <span class="number">-1</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>X轴与Y轴各司其职。</p>
 <h4 id="绘制网线"><a href="#绘制网线" class="headerlink" title="绘制网线"></a>绘制网线</h4><p>逐个判断粒子间的距离，再通过最大距离计算网线的透明度。然后 <code>ctx.lineTo()</code> 两个粒子的中心即可。</p>
 <h4 id="END"><a href="#END" class="headerlink" title="END"></a>END</h4><p>粒子过多的时候回明显卡顿，而速度过大的时候会感觉动画似乎并不连贯。</p>
@@ -112,7 +116,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://iamgqb.github.io/2017/simple-particle-animate/" data-id="ciysptha10000f97angtwo68x" class="article-share-link">Share</a>
+      <a data-url="https://iamgqb.github.io/2017/simple-particle-animate/" data-id="ciyspxlmr0001nv7apyclx9ou" class="article-share-link">Share</a>
       
       
     </footer>
@@ -162,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://iamgqb.github.io/2016/chain-in-javascript/" data-id="ciysptha50001f97a9egi8snm" class="article-share-link">Share</a>
+      <a data-url="https://iamgqb.github.io/2016/chain-in-javascript/" data-id="ciyspxlmk0000nv7ajo8l6d6n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,7 +191,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
@@ -197,7 +201,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
