@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BiliBili icons old</title>
+  <style>
+    body {margin: 0}
+    .container {
+      padding: 10px;
+    }
+    table {
+      width: 100%;
+      border: 1px solid #e8e8e8;
+      border-collapse: collapse;
+    }
+    tr:hover {
+      background: #eee;
+    }
+    th {
+      border: 1px solid #e8e8e8;
+      text-align: center;
+    }
+    td {
+      border: 1px solid #e8e8e8;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <table>
+          <thead>
+            <tr>
+              <th width="80">id</th>
+              <th>title</th>
+              <th>keyword</th>
+              <th width="100"></th>
+              <th width="80">link</th>
+            </tr>
+          </thead>
+        </table>
+  </div>
+  <script>
+    fetch('./icon-old.json').then(j => j.json()).then(d => {
+      const doc = document;
+      const $table = doc.querySelector('table');
+      const $tbody = doc.createElement('tbody');
+
+      d.fix.sort((prev, next) => prev.id - next.id).forEach(item => {
+        const $tr = doc.createElement('tr');
+
+        $tr.appendChild(ctd(item.id));
+        $tr.appendChild(ctd(item.title));
+        $tr.appendChild(ctd(getKeyword(item.links[0])));
+        $tr.appendChild(ctd(`<img src="http:${item.icon}" >`));
+        $tr.appendChild(ctd(`<a href="${item.links[0]}" target="_blank">链接</>`));
+        
+        $tbody.appendChild($tr);
+      });
+
+      $table.appendChild($tbody);
+    })
+
+    function ctd(ctn) {
+      const $td = document.createElement('td');
+      $td.innerHTML = ctn;
+      return $td;
+    }
+
+    function getKeyword(link) {
+      if (!link) return '';
+
+      if (link.indexOf('http') === -1) {
+        link = 'http:' + link;
+      }
+      return new URL(link).searchParams.get('keyword');
+    }
+  </script>
+</body>
+</html>
